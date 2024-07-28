@@ -335,6 +335,13 @@
             const phone = formData.get('phone');
             doc.save(`${ownerName}_${phone}.pdf`);
         }
+
+        // 添加事件监听器
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('button[onclick="showMap()"]').addEventListener('click', showMap);
+            document.querySelector('button[onclick="uploadImages()"]').addEventListener('click', uploadImages);
+            document.querySelector('button[onclick="generatePDF()"]').addEventListener('click', generatePDF);
+        });
     </script>
 </body>
 </html>
