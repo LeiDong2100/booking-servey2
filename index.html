@@ -7,6 +7,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 20px; }
         form { max-width: 800px; margin: 0 auto; }
@@ -257,16 +258,13 @@
         function generatePDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-
-            doc.addFont('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.worker.min.js', 'SimSun', 'normal');
-            doc.setFont('SimSun');
             
             const form = document.getElementById('minsuForm');
             const formData = new FormData(form);
 
             let yPos = 20;
             doc.setFontSize(16);
-            doc.text("民宿信息", 105, yPos, null, null, "center");
+            doc.text("Homestay Information", 105, yPos, null, null, "center");
             yPos += 10;
 
             doc.setFontSize(12);
@@ -278,14 +276,16 @@
                 if (Array.isArray(value)) {
                     value = value.join(', ');
                 }
-                doc.text(`${key}: ${value}`, 20, yPos);
+                const translatedKey = await translateText(key);
+                const translatedValue = await translateText(value);
+                doc.text(`${translatedKey}: ${translatedValue}`, 20, yPos);
                 yPos += 7;
             }
 
             if (uploadedImages.length > 0) {
                 doc.addPage();
                 yPos = 20;
-                doc.text("房源图片：", 20, yPos);
+                doc.text("Property Images:", 20, yPos);
                 yPos += 10;
 
                 for (let i = 0; i < uploadedImages.length; i++) {
