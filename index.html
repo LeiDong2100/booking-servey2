@@ -7,31 +7,70 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 20px; }
-        form { max-width: 800px; margin: 0 auto; }
-        label { display: block; margin-top: 10px; }
-        input[type="text"], input[type="number"], select, textarea { width: 100%; padding: 8px; margin-top: 5px; }
-        input[type="checkbox"] { margin-right: 5px; }
-        button { padding: 10px 15px; margin-top: 20px; }
-        #map { height: 400px; margin-top: 20px; }
-        #imagePreview img { max-width: 200px; margin: 10px; }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        form {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input[type="text"], input[type="number"], select, textarea {
+            width: 100%;
+            padding: 5px;
+            margin-top: 5px;
+        }
+        input[type="checkbox"], input[type="radio"] {
+            margin-right: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+        #map {
+            height: 300px;
+            margin-top: 10px;
+        }
+        #imagePreview {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        #imagePreview img {
+            max-width: 100px;
+            max-height: 100px;
+            margin: 5px;
+        }
     </style>
 </head>
 <body>
     <form id="minsuForm">
         <h2>民宿信息收集</h2>
-
+        
         <label>民宿类型：
-            <select name="housingType" required>
+            <select name="type" required>
                 <option value="整套">整套</option>
                 <option value="独立客房">独立客房</option>
             </select>
         </label>
 
         <label>民宿细分类型：
-            <select name="subType" required>
+            <select name="subtype" required>
                 <option value="公寓">公寓</option>
                 <option value="度假屋">度假屋</option>
                 <option value="别墅">别墅</option>
@@ -42,66 +81,74 @@
         </label>
 
         <label>民宿数量：
-            <select name="housingCount" required>
+            <select name="quantity" required>
                 <option value="单个">单个</option>
                 <option value="多个">多个</option>
             </select>
         </label>
 
-        <label>民宿数量：<input type="number" name="exactHousingCount" min="1" required></label>
+        <label>民宿数量：
+            <input type="number" name="exactQuantity" min="1" required>
+        </label>
 
         <h3>民宿1：</h3>
 
-        <label>名称：<input type="text" name="name" required></label>
+        <label>名称：
+            <input type="text" name="name" required>
+        </label>
 
-        <label>地址：<input type="text" name="address" placeholder="省市县区街道地址" required></label>
+        <label>地址：
+            <input type="text" name="address" placeholder="省市县区街道地址" required>
+        </label>
 
-        <label>地图定位：</label>
-        <button type="button" onclick="showMap()">选择位置</button>
+        <label>地图定位：
+            <button type="button" onclick="showMap()">选择位置</button>
+        </label>
         <div id="map"></div>
-        <input type="hidden" name="latitude" id="latitude">
-        <input type="hidden" name="longitude" id="longitude">
+        <input type="hidden" name="latitude">
+        <input type="hidden" name="longitude">
 
-        <label>房间数：<input type="number" name="roomCount" min="1" required></label>
+        <label>房间数：
+            <input type="number" name="roomCount" min="1" required>
+        </label>
 
-        <label>床数：<input type="number" name="bedCount" min="1" required></label>
+        <label>床数：
+            <input type="number" name="bedCount" min="1" required>
+        </label>
 
-        <label>可接待人数：<input type="number" name="guestCount" min="1" required></label>
+        <label>可接待人数：
+            <input type="number" name="capacity" min="1" required>
+        </label>
 
         <label>是否允许儿童入住：
-            <select name="allowChildren" required>
-                <option value="是">是</option>
-                <option value="否">否</option>
-            </select>
+            <input type="radio" name="allowChildren" value="是" required> 是
+            <input type="radio" name="allowChildren" value="否" required> 否
         </label>
 
         <label>是否允许宠物入住：
-            <select name="allowPets" required>
-                <option value="是">是</option>
-                <option value="否">否</option>
-            </select>
+            <input type="radio" name="allowPets" value="是" required> 是
+            <input type="radio" name="allowPets" value="否" required> 否
         </label>
 
-        <label>面积大小：<input type="number" name="area" min="1" required> 平方米</label>
+        <label>面积大小：
+            <input type="number" name="size" min="1" required> 平方米
+        </label>
 
-        <label>常见客房设施：</label>
-        <div>
+        <label>常见客房设施：
             <input type="checkbox" name="facilities" value="空调"> 空调
             <input type="checkbox" name="facilities" value="暖气"> 暖气
             <input type="checkbox" name="facilities" value="WiFi"> WiFi
             <input type="checkbox" name="facilities" value="停车位"> 停车位
-        </div>
-        <label>其他设施：<input type="text" name="otherFacilities"></label>
+            <input type="text" name="otherFacilities" placeholder="其他">
+        </label>
 
-        <label>烹饪&清洁：</label>
-        <div>
-            <input type="checkbox" name="cookingAndCleaning" value="厨房"> 厨房
-            <input type="checkbox" name="cookingAndCleaning" value="洗衣机"> 洗衣机
-        </div>
-        <label>其他：<input type="text" name="otherCookingAndCleaning"></label>
+        <label>烹饪&清洁：
+            <input type="checkbox" name="cooking" value="厨房"> 厨房
+            <input type="checkbox" name="cooking" value="洗衣机"> 洗衣机
+            <input type="text" name="otherCooking" placeholder="其他">
+        </label>
 
-        <label>娱乐多媒体：</label>
-        <div>
+        <label>娱乐多媒体：
             <input type="checkbox" name="entertainment" value="平板电视"> 平板电视
             <input type="checkbox" name="entertainment" value="游泳池"> 游泳池
             <input type="checkbox" name="entertainment" value="浴缸"> 浴缸
@@ -109,106 +156,95 @@
             <input type="checkbox" name="entertainment" value="餐桌"> 餐桌
             <input type="checkbox" name="entertainment" value="沙发"> 沙发
             <input type="checkbox" name="entertainment" value="浴室"> 浴室
-        </div>
-        <label>其他：<input type="text" name="otherEntertainment"></label>
+            <input type="text" name="otherEntertainment" placeholder="其他">
+        </label>
 
-        <label>室外与景观：</label>
-        <div>
+        <label>室外与景观：
             <input type="checkbox" name="outdoor" value="阳台"> 阳台
             <input type="checkbox" name="outdoor" value="花园"> 花园
             <input type="checkbox" name="outdoor" value="露台"> 露台
-        </div>
-        <label>其他：<input type="text" name="otherOutdoor"></label>
+            <input type="text" name="otherOutdoor" placeholder="其他">
+        </label>
 
         <label>是否有优秀的外部景观？
-            <select name="hasGoodView" required>
-                <option value="是">是</option>
-                <option value="否">否</option>
-            </select>
+            <input type="radio" name="goodView" value="是" required> 是
+            <input type="radio" name="goodView" value="否" required> 否
         </label>
 
         <label>是否提供早餐：
-            <select name="providesBreakfast" required>
-                <option value="是">是</option>
-                <option value="否">否</option>
-            </select>
+            <input type="radio" name="breakfast" value="是" required> 是
+            <input type="radio" name="breakfast" value="否" required> 否
         </label>
 
         <label>多语言服务：
-            <select name="multiLanguageService" required>
-                <option value="是">是</option>
-                <option value="否">否</option>
-            </select>
+            <input type="radio" name="multiLanguage" value="是" required> 是
+            <input type="radio" name="multiLanguage" value="否" required> 否
         </label>
 
-        <label>吸烟：
-            <select name="smoking" required>
-                <option value="允许">允许</option>
-                <option value="不允许">不允许</option>
-            </select>
+        <label>允许吸烟？
+            <input type="radio" name="smoking" value="是" required> 是
+            <input type="radio" name="smoking" value="否" required> 否
         </label>
 
-        <label>宠物：
-            <select name="pets" required>
-                <option value="允许">允许</option>
-                <option value="不允许">不允许</option>
-            </select>
-        </label>
-
-        <label>可举办活动：
-            <select name="canHoldEvents" required>
-                <option value="是">是</option>
-                <option value="否">否</option>
-            </select>
+        <label>可举办活动？
+            <input type="radio" name="events" value="是" required> 是
+            <input type="radio" name="events" value="否" required> 否
         </label>
 
         <label>入住时间：
-            <input type="time" name="checkInTimeStart" required> 至
-            <input type="time" name="checkInTimeEnd" required>
+            <input type="time" name="checkInStart" required> 至
+            <input type="time" name="checkInEnd" required>
         </label>
 
         <label>退房时间：
-            <input type="time" name="checkOutTimeStart" required> 至
-            <input type="time" name="checkOutTimeEnd" required>
+            <input type="time" name="checkOutStart" required> 至
+            <input type="time" name="checkOutEnd" required>
         </label>
 
-        <label>房源简介：<textarea name="description" rows="4" required></textarea></label>
+        <label>房源简介：
+            <textarea name="description" rows="4" required></textarea>
+        </label>
 
-        <label>预计单日价格：<input type="number" name="price" min="0" required> 元</label>
+        <label>预计单日价格：
+            <input type="number" name="price" min="0" step="0.01" required> 元
+        </label>
 
         <label>是否接受促销折扣：
-            <select name="acceptsDiscounts" required>
-                <option value="是">是</option>
-                <option value="否">否</option>
-            </select>
+            <input type="radio" name="discount" value="是" required> 是
+            <input type="radio" name="discount" value="否" required> 否
         </label>
 
-        <label>最长连住时间：<input type="number" name="maxStayDays" min="1" required> 天</label>
+        <label>最长连住时间：
+            <input type="number" name="maxStay" min="1" required> 天
+        </label>
 
         <label>房源性质：
-            <select name="ownershipType" required>
-                <option value="个人所有">个人所有</option>
-                <option value="公司所有">公司所有</option>
-            </select>
+            <input type="radio" name="ownership" value="个人所有" required> 个人所有
+            <input type="radio" name="ownership" value="公司所有" required> 公司所有
         </label>
 
-        <label>房主姓名：<input type="text" name="ownerName" required></label>
+        <label>房主姓名：
+            <input type="text" name="ownerName" required>
+        </label>
 
         <label>是否有意愿接待外国游客：
-            <select name="willHostForeigners" required>
-                <option value="是">是</option>
-                <option value="否">否</option>
-            </select>
+            <input type="radio" name="foreignGuests" value="是" required> 是
+            <input type="radio" name="foreignGuests" value="否" required> 否
         </label>
 
-        <label>房源图片：</label>
-        <input type="file" id="imageUpload" accept=".jpg,.jpeg,.png" multiple>
-        <button type="button" onclick="uploadImages()">上传图片</button>
+        <label>房源图片：
+            <input type="file" id="imageUpload" accept=".jpg,.jpeg,.png" multiple>
+            <button type="button" onclick="uploadImages()">上传图片</button>
+        </label>
         <div id="imagePreview"></div>
 
         <label>联系方式：</label>
-        <label>电话：<input type="tel" name="phone" required></label>
-        <label>微信/QQ：<input type="text" name="wechatOrQQ"></label>
+        <label>电话：
+            <input type="tel" name="phone" required>
+        </label>
+        <label>微信/QQ：
+            <input type="text" name="wechatQQ">
+        </label>
 
         <button type="button" onclick="generatePDF()">生成PDF</button>
     </form>
@@ -224,16 +260,15 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(map);
-
-                map.on('click', function(e) {
-                    if (marker) {
-                        map.removeLayer(marker);
-                    }
-                    marker = L.marker(e.latlng).addTo(map);
-                    document.getElementById('latitude').value = e.latlng.lat;
-                    document.getElementById('longitude').value = e.latlng.lng;
-                });
             }
+            map.on('click', function(e) {
+                if (marker) {
+                    map.removeLayer(marker);
+                }
+                marker = L.marker(e.latlng).addTo(map);
+                document.querySelector('input[name="latitude"]').value = e.latlng.lat;
+                document.querySelector('input[name="longitude"]').value = e.latlng.lng;
+            });
         }
 
         function uploadImages() {
@@ -243,7 +278,7 @@
             for (let i = 0; i < input.files.length; i++) {
                 const file = input.files[i];
                 if (!file.type.startsWith('image/')) continue;
-
+                
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     uploadedImages.push(e.target.result);
@@ -258,13 +293,13 @@
         function generatePDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            
+
             const form = document.getElementById('minsuForm');
             const formData = new FormData(form);
 
             let yPos = 20;
             doc.setFontSize(16);
-            doc.text("Homestay Information", 105, yPos, null, null, "center");
+            doc.text("民宿信息", 105, yPos, null, null, "center");
             yPos += 10;
 
             doc.setFontSize(12);
@@ -276,16 +311,14 @@
                 if (Array.isArray(value)) {
                     value = value.join(', ');
                 }
-                const translatedKey = await translateText(key);
-                const translatedValue = await translateText(value);
-                doc.text(`${translatedKey}: ${translatedValue}`, 20, yPos);
+                doc.text(`${key}: ${value}`, 20, yPos);
                 yPos += 7;
             }
 
             if (uploadedImages.length > 0) {
                 doc.addPage();
                 yPos = 20;
-                doc.text("Property Images:", 20, yPos);
+                doc.text("房源图片：", 20, yPos);
                 yPos += 10;
 
                 for (let i = 0; i < uploadedImages.length; i++) {
