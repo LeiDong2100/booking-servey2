@@ -254,9 +254,6 @@
         function generatePDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-
-            doc.addFont('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.worker.min.js', 'SimSun', 'normal');
-            doc.setFont('SimSun');
             
             const form = document.getElementById('minsuForm');
             const formData = new FormData(form);
